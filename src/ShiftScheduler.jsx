@@ -50,6 +50,17 @@ export default function ShiftScheduler() {
 
   const [paidLeave, setPaidLeave] = useState({});
 
+  // Define date helpers before any functions that depend on them.
+  const getDayOfWeek = (day) => {
+    const date = new Date(selectedMonth.year, selectedMonth.month, day);
+    return date.getDay();
+  };
+
+  const getDayOfWeekText = (day) => {
+    const days = ['日', '月', '火', '水', '木', '金', '土'];
+    return days[getDayOfWeek(day)];
+  };
+
   const isNextDaySpecialWithOneDayShift = (day) => {
     if (day >= daysInMonth) return false;
     const nextDay = day + 1;
@@ -167,15 +178,7 @@ export default function ShiftScheduler() {
     return getAllConsecutiveNightShiftViolations();
   }, [schedule, daysInMonth]);
 
-  const getDayOfWeek = (day) => {
-    const date = new Date(selectedMonth.year, selectedMonth.month, day);
-    return date.getDay();
-  };
-
-  const getDayOfWeekText = (day) => {
-    const days = ['日', '月', '火', '水', '木', '金', '土'];
-    return days[getDayOfWeek(day)];
-  };
+  // (moved above) getDayOfWeek / getDayOfWeekText
 
   const isSpecialDay = (day) => {
     const dow = getDayOfWeek(day);
